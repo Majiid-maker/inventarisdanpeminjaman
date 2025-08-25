@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p,
+    a,
+    cite,
+    span,
+    tr,
+    td,
+    li,
+    label,
+    button,
+    input {
+        font-family: "Plus Jakarta Sans";
+    }
+}
