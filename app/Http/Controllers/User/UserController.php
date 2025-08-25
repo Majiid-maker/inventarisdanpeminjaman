@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 use App\Models\Room;
+use App\Models\User;
 use App\Models\RoomBooking;
 use App\Models\Inventaris;
 use App\Models\InventarisLog;
@@ -15,6 +16,12 @@ class UserController extends Controller
     {
         $rooms = Room::all();
         return view('content.user.dashboard', compact('rooms'));
+    }
+
+    public function profile()
+    {
+        $users = User::all();
+        return view('content.user.profile', compact('users'));
     }
 
     // Halaman detail ruangan
