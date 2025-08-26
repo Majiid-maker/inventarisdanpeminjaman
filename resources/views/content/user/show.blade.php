@@ -2,8 +2,15 @@
 
   <!-- Section Katalog & Jadwal -->
   <section class="w-full px-4 py-10 bg-gray-100">
+    <div class="flex items-center mb-8">
+      <a href="{{ route('rooms.index') }}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
+          <i class="fas fa-arrow-left mr-2"></i>
+          <span>Kembali ke Beranda</span>
+      </a> 
+  </div>
     <div class="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
 
+      
       <!-- Katalog Lokasi -->
       <div class="bg-white rounded-lg shadow overflow-hidden">
         <img src="{{ asset('storage/' . $room->gambar) }}" alt="{{ $room->nama_ruang }}" class="w-full h-64 object-cover">

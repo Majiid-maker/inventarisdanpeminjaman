@@ -1,8 +1,8 @@
 <x-layout> 
-    <div class="max-w-3xl mx-auto px-4 py-8">
+    <div class="max-w-5xl mx-auto px-4 py-8">
         <!-- Header dengan back button -->
         <div class="flex items-center mb-8">
-            <a href="/dashboard" class="flex items-center text-primary-600 hover:text-primary-800 transition">
+            <a href="{{ route('rooms.index') }}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
                 <i class="fas fa-arrow-left mr-2"></i>
                 <span>Kembali ke Beranda</span>
             </a> 
@@ -24,7 +24,9 @@
             </div>
 
             <!-- Form section -->
-            <form class="p-6 space-y-6" id="profileForm" method="POST" >
+            <form class="p-6 space-y-6" id="profileForm" method="POST" action="{{ route('profile.update') }}">
+                @csrf
+                @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Nama -->
                     <div>
@@ -200,7 +202,10 @@
                     </button>
                 </div>
                 
-                <form id="passwordForm" class="space-y-4">
+                <form id="passwordForm" class="space-y-4" method="POST" action="{{ route('changePassword') }}">
+                    @csrf
+                    @method('PUT')
+                    
                     <div>
                         <label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-1">Password Saat Ini</label>
                         <div class="relative">
@@ -312,7 +317,7 @@
         
         // Save changes
         saveButton.addEventListener('click', (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             
             // Update profile header
             document.getElementById('profileName').textContent = document.getElementById('name').value;
@@ -330,6 +335,46 @@
                 saveCancelButtons.classList.add('hidden');
             }, 500);
         });
+
+        // Submit password form
+passwordForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // cegah reload
+
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (newPassword !== confirmPassword) {
+        alert('Password baru dan konfirmasi password tidak cocok!');
+        return;
+    }
+
+    fetch('/user/change-password', { // route Laravel
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            password: newPassword,
+            password_confirmation: confirmPassword
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Password berhasil diubah!');
+            changePasswordModal.classList.add('hidden');
+            passwordForm.reset();
+        } else {
+            alert(data.message || 'Gagal mengubah password!');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan server!');
+    });
+});
+
         
         // Open change password modal
         changePasswordButton.addEventListener('click', () => {
@@ -349,7 +394,7 @@
         
         // Submit password form
         passwordForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;

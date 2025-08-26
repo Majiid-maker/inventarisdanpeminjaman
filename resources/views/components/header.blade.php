@@ -127,7 +127,7 @@
                                     <a href="{{ route('profile') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         <i class="fas fa-user-circle mr-2 text-gray-500"></i> Profile
                                     </a>
-                                    <a href="{{ route('profile') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <a href="{{ route('history') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         <i class="fas fa-history mr-2 text-gray-500"></i> History
                                     </a>
                                     <div class="border-t border-gray-100 my-1"></div>

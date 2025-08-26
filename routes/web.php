@@ -27,5 +27,9 @@ Route::group(['middleware'=>'auth:user'], function () {
     Route::get('/profile',[UserController::class, 'profile'])->name('profile');   
     Route::get('/history',[UserController::class, 'history'])->name('history');   
     Route::get('/rooms/forms/{id}', [UserController::class, 'form'])->name('rooms.form');
-    Route::post('/booking', [RoomBookingController::class, 'store'])->name('booking');    
+    Route::post('/booking', [RoomBookingController::class, 'store'])->name('booking');   
+    Route::put('/profile', [UserController::class, 'update'])->name('profile.update');
+    Route::post('/user/change-password', [UserController::class, 'changePassword'])->name('changePassword');
+    Route::get('/history', [RoomBookingController::class, 'index'])->name('history');
+    Route::get('/history/{id}', [RoomBookingController::class, 'show'])->name('booking.show');
 });

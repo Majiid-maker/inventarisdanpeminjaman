@@ -9,6 +9,8 @@ use App\Models\InventarisLog;
 use Illuminate\View\view;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -20,10 +22,40 @@ class UserController extends Controller
 
     public function profile()
     {
-        $users = User::all();
-        return view('content.user.profile', compact('users'));
+        $user = Auth::user();
+        return view('content.user.profile', compact('user'));
     }
 
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'nim_npp' => 'nullable|string|max:50',
+            'prodi' => 'nullable|string|max:100',
+            'fakultas' => 'nullable|string|max:100',
+            'no_hp' => 'nullable|string|max:20',
+        ]);
+
+        $user->update($validated);
+
+        return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function changePassword(Request $request)
+{
+    $request->validate([
+        'password' => 'required|string|min:8|confirmed'
+    ]);
+
+    $user = Auth::user();
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return response()->json(['success' => true]);
+}
     // Halaman detail ruangan
     public function show(Request $request, $id)
     {
