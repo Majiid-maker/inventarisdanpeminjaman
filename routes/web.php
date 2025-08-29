@@ -19,6 +19,11 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login',[AuthController::class, 'verify'])->name('auth.verify');
 Route::group(['middleware'=>'auth:super'], function () {
     Route::get('/super/home',[SuperController::class, 'index'])->name('super.dashboard');
+    Route::get('/super/rooms',[SuperController::class, 'rooms'])->name('super.rooms');
+    Route::get('/super/bookings',[SuperController::class, 'roombookings'])->name('super.bookings');
+    Route::get('/super/inventaris',[SuperController::class, 'inventaris'])->name('super.inventaris');
+    Route::get('/super/logs',[SuperController::class, 'inventarislog'])->name('super.logs');
+    Route::get('/super/user',[SuperController::class, 'user'])->name('super.user');
 });
 Route::group(['middleware'=>'auth:admin'], function () {
     Route::get('/admin/home',[DashboardController::class, 'index'])->name('admin.dashboard');

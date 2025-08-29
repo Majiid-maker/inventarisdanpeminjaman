@@ -9,8 +9,6 @@
       </a> 
   </div>
     <div class="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-      
       <!-- Katalog Lokasi -->
       <div class="bg-white rounded-lg shadow overflow-hidden">
         <img src="{{ asset('storage/' . $room->gambar) }}" alt="{{ $room->nama_ruang }}" class="w-full h-64 object-cover">
@@ -54,7 +52,8 @@
           @foreach($jadwal as $j)
             <li class="py-2 flex justify-between">
               <span>{{ \Carbon\Carbon::parse($j->tanggal)->translatedFormat('j F') }}</span>
-              <span class="text-green-600">{{ $j->kepentingan }} ({{ $j->waktu_mulai }}–{{ $j->waktu_selesai }})</span>
+              <span>{{ $j->kepentingan }}</span>
+              <span class="text-green-600">({{ $j->waktu_mulai }}–{{ $j->waktu_selesai }})</span>
             </li>
           @endforeach
           @if($jadwal->isEmpty())

@@ -38,37 +38,37 @@ class RoomBookingController extends Controller
 
     // List booking user
      
-    public function index()
-    {
-        $bookings = RoomBooking::with('room')
-            ->where('user_id', Auth::id())
-            ->orderBy('tanggal', 'desc')
-            ->paginate(9); 
-
-        // Hitung jumlah booking per status
-        $counts = RoomBooking::select('status', \DB::raw('count(*) as total'))
-            ->where('user_id', Auth::id())
-            ->groupBy('status')
-            ->pluck('total', 'status');
-            
-            $total = RoomBooking::where('user_id', Auth::id())->count();
-
-            return view('content.user.bookingsindex', compact('bookings', 'counts', 'total'));
+    public function index(Request $request)
+{
+    $query = RoomBooking::with('room')
+        ->where('user_id', Auth::id());
+    
+    // Filter berdasarkan status jika ada
+    if ($request->has('status') && $request->status != 'Semua' && $request->status != '') {
+        $query->where('status', $request->status);
     }
+    
+    $bookings = $query->orderBy('tanggal', 'desc')
+        ->paginate(9); 
+
+    // Hitung jumlah booking per status
+    $counts = RoomBooking::select('status', \DB::raw('count(*) as total'))
+        ->where('user_id', Auth::id())
+        ->groupBy('status')
+        ->pluck('total', 'status')
+        ->toArray();
+        
+    $total = RoomBooking::where('user_id', Auth::id())->count();
+
+    return view('content.user.bookingsindex', compact('bookings', 'counts', 'total'));
+}
 
 
 // Detail booking
 public function show($id)
 {
     $booking = RoomBooking::with('room', 'user')->findOrFail($id);
-
-    // untuk API
-    // return response()->json([
-    //     'success' => true,
-    //     'data'    => $booking
-    // ]);
-
-    // untuk web view
+ 
     return view('content.user.bookingsshow', compact('booking'));
 }
 

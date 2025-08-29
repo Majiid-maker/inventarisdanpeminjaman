@@ -21,85 +21,29 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4 md:mb-0">Filter Booking</h2>
             
             <div class="flex flex-wrap gap-3 mb-4">
-                <button class="filter-btn active bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium" data-filter="Semua">
-                    Semua
-                </button>
-                <button class="filter-btn bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium" data-filter="diproses">
-                    Diproses
-                </button>
-                <button class="filter-btn bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium" data-filter="disetujui">
-                    Disetujui
-                </button>
-                <button class="filter-btn bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-medium" data-filter="ditolak">
-                    Ditolak
-                </button>
-                <button class="filter-btn bg-blue-300 text-white-400 px-4 py-2 rounded-full text-sm font-medium" data-filter="selesai">
-                    Selesai
-                </button>
+                <a href="{{ request()->fullUrlWithQuery(['status' => '']) }}" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors {{ !request('status') || request('status') == 'Semua' ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800' }}">
+                    Semua <span class="bg-blue-200 text-blue-800 px-2 py-0.5 rounded-full ml-1 text-xs">{{ $total }}</span>
+                </a>
+                <a href="{{ request()->fullUrlWithQuery(['status' => 'diproses']) }}" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors {{ request('status') == 'diproses' ? 'bg-yellow-600 text-white' : 'bg-yellow-100 text-yellow-800' }}">
+                    Diproses <span class="bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded-full ml-1 text-xs">{{ $counts['diproses'] ?? 0 }}</span>
+                </a>
+                <a href="{{ request()->fullUrlWithQuery(['status' => 'disetujui']) }}" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors {{ request('status') == 'disetujui' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-800' }}">
+                    Disetujui <span class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full ml-1 text-xs">{{ $counts['disetujui'] ?? 0 }}</span>
+                </a>
+                <a href="{{ request()->fullUrlWithQuery(['status' => 'ditolak']) }}" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors {{ request('status') == 'ditolak' ? 'bg-red-600 text-white' : 'bg-red-100 text-red-800' }}">
+                    Ditolak <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full ml-1 text-xs">{{ $counts['ditolak'] ?? 0 }}</span>
+                </a>
+                <a href="{{ request()->fullUrlWithQuery(['status' => 'selesai']) }}" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors {{ request('status') == 'selesai' ? 'bg-purple-600 text-white' : 'bg-purple-100 text-purple-800' }}">
+                    Selesai <span class="bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full ml-1 text-xs">{{ $counts['selesai'] ?? 0 }}</span>
+                </a>
             </div>
-
-            <div class="mt-4 md:mt-0">
-                <div class="relative">
-                    <input type="text" placeholder="Cari booking..." class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full md:w-64">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats Summary -->
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-5 mb-8">
-        <div class="bg-white rounded-2xl shadow-sm p-5 flex items-center">
-            <div class="room-icon bg-blue-100 text-blue-600 mr-4">
-                <i class="fas fa-calendar-check text-xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-500 text-sm">Total Booking</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $total }}</p>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm p-5 flex items-center">
-            <div class="room-icon bg-yellow-100 text-yellow-600 mr-4">
-                <i class="fas fa-clock text-xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-500 text-sm">Diproses</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $counts['diproses'] ?? 0 }}</p>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm p-5 flex items-center">
-            <div class="room-icon bg-green-100 text-green-600 mr-4">
-                <i class="fas fa-check-circle text-xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-500 text-sm">Disetujui</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $counts['disetujui'] ?? 0 }}</p>
-            </div>
-        </div>
  
-        <div class="bg-white rounded-2xl shadow-sm p-5 flex items-center">
-            <div class="room-icon bg-red-100 text-red-600 mr-4">
-                <i class="fas fa-times-circle text-xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-500 text-sm">Ditolak</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $counts['ditolak'] ?? 0 }}</p>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm p-5 flex items-center">
-            <div class="room-icon bg-blue-300 text-grey-100 mr-4">
-                <i class="fas fa-check text-xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-500 text-sm">Selesai</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $counts['selesai'] ?? 0 }}</p>
-            </div>
+            
+ 
         </div>
     </div>
-
+ 
+    @if($bookings->count() > 0)
     <!-- Booking Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         @foreach ($bookings as $b)
@@ -159,7 +103,6 @@
             </div>
         @endforeach
     </div>
-
     <div class="flex space-x-1">
         {{-- Tombol sebelumnya --}}
         <a href="{{ $bookings->previousPageUrl() }}" 
@@ -208,6 +151,15 @@
             <i class="fas fa-chevron-right"></i>
         </a>
     </div>
+            @else
+                <div class=" grid bg-white rounded-lg shadow-md p-8 text-center">
+                    <i class="far fa-folder-open text-4xl text-gray-300 mb-3"></i>
+                    <h3 class="text-lg font-medium text-gray-600">Tidak ada data booking</h3>
+                    <p class="text-gray-500 mt-1">Anda belum memiliki booking ruangan</p>
+                </div>
+            @endif
+
+    
     
 
     

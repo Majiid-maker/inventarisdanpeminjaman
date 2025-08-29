@@ -45,17 +45,17 @@ class UserController extends Controller
     }
 
     public function changePassword(Request $request)
-{
-    $request->validate([
-        'password' => 'required|string|min:8|confirmed'
-    ]);
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed'
+        ]);
 
-    $user = Auth::user();
-    $user->password = Hash::make($request->password);
-    $user->save();
+        $user = Auth::user();
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-    return response()->json(['success' => true]);
-}
+        return response()->json(['success' => true]);
+    }
     // Halaman detail ruangan
     public function show(Request $request, $id)
     {
